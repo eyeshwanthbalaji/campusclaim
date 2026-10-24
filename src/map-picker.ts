@@ -50,11 +50,11 @@ function loadLeaflet():Promise<LeafletLibrary>{
   styles:[`
     :host{display:block;margin:12px 0}
     .map-picker-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0}
-    .map-picker-toolbar p,.map-picker-message,.map-picker-coordinates{margin:0;font-size:11px;line-height:1.6;color:#788078}
+    .map-picker-toolbar p,.map-picker-message,.map-picker-coordinates{margin:0;font-size:11px;line-height:1.6;color:var(--muted,#687782)}
     .map-picker-toolbar button{padding:10px 12px;white-space:nowrap}
-    .interactive-map{height:280px;border:1px solid #e1e5da;border-radius:9px;overflow:hidden;background:#eef1e8}
-    .map-picker-message{color:#a54232;margin-top:7px}
-    .map-picker-coordinates{color:#245b45;margin-top:7px}
+    .interactive-map{height:280px;border:1px solid var(--line,#d8d1c5);border-radius:9px;overflow:hidden;background:#f0e7d9}
+    .map-picker-message{color:#a23d28;margin-top:7px}
+    .map-picker-coordinates{color:var(--green,#244c66);margin-top:7px}
     @media(max-width:520px){.map-picker-toolbar{align-items:stretch;flex-direction:column}.interactive-map{height:240px}}
   `]
 })
