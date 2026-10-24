@@ -39,7 +39,7 @@ function loadLeaflet():Promise<LeafletLibrary>{
   standalone:true,
   imports:[CommonModule],
   template:`
-    <div class="map-picker-toolbar">
+    <div class="map-picker-toolbar" *ngIf="!readOnly">
       <p>Zoom in, then drag the pin or click the map to set the exact spot.</p>
       <button type="button" class="secondary" [disabled]="locating" (click)="useCurrentLocation()">{{locating?'Finding location…':'◎ Use my current location'}}</button>
     </div>
@@ -60,6 +60,7 @@ function loadLeaflet():Promise<LeafletLibrary>{
 })
 export class MapPickerComponent implements AfterViewInit,OnChanges,OnDestroy{
   private cdr=inject(ChangeDetectorRef);
+  @Input() readOnly=false;
   @Input() latitude:number|null=null;
   @Input() longitude:number|null=null;
   @Output() coordinatesChange=new EventEmitter<Coordinates>();
@@ -95,7 +96,7 @@ export class MapPickerComponent implements AfterViewInit,OnChanges,OnDestroy{
       }).addTo(this.map);
       const coordinates=this.getCoordinates();
       this.map.setView(coordinates?[coordinates.latitude,coordinates.longitude]:[0,0],coordinates?17:2);
-      this.map.on('click',event=>this.setPin(event.latlng.lat,event.latlng.lng));
+      if(!this.readOnly)this.map.on('click',event=>this.setPin(event.latlng.lat,event.latlng.lng));
       this.initialized=true;
       this.updateMarker();
       setTimeout(()=>this.map?.invalidateSize(),0);
@@ -118,7 +119,7 @@ export class MapPickerComponent implements AfterViewInit,OnChanges,OnDestroy{
     const leaflet=(window as LeafletWindow).L;
     if(!leaflet)return;
     this.marker=leaflet.marker(point,{
-      draggable:true,
+      draggable:!this.readOnly,
       icon:leaflet.divIcon({
         className:'',
         html:'<span style="display:block;width:18px;height:18px;border:3px solid #174431;border-radius:50%;background:#dcf384;box-shadow:0 1px 5px #0008"></span>',
@@ -126,7 +127,7 @@ export class MapPickerComponent implements AfterViewInit,OnChanges,OnDestroy{
         iconAnchor:[12,12]
       })
     }).addTo(this.map);
-    this.marker.on('dragend',event=>{
+    if(!this.readOnly)this.marker.on('dragend',event=>{
       const {lat,lng}=event.target.getLatLng();
       this.setPin(lat,lng);
     });
