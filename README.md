@@ -263,3 +263,17 @@ Add an appropriate open-source license before distributing the project publicly.
 ---
 
 **CampusClaim — Report it. Find it. Return it.**
+
+
+## 16. Vercel + shared Turso database
+
+The Vercel deployment serves Angular and the Node serverless API in `api/index.js`. It uses Turso hosted SQLite via SQL-over-HTTPS rather than a local filesystem. The original Express backend remains in `server/index.cjs` for local/Docker use.
+
+- Configure sensitive server-only `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` using the Vercel Turso integration. Never prefix these with public frontend variables or commit their values.
+- `vercel.json` builds Angular into `dist/campusclaim/browser` and routes `/api/*` to the backend before the frontend fallback.
+- `GET /api/health` returns `{ok:true,database:"turso",shared:true}` only after a real database query succeeds.
+- Map pins, reports and claims are shared through the hosted database. Local demo data is not automatically uploaded. The hosted database starts empty.
+- Free Starter database provisioning was selected; stay within provider quotas and review plan settings before upgrades.
+- Interactive Leaflet map uses OpenStreetMap tiles; public pins can disclose location. Use fictional reports and contact details until campus authorization, login, moderation and retention/deletion controls exist.
+- Rate limiting is best-effort per serverless instance, not a distributed abuse-control system.
+- Run `node --test server/api.test.cjs server/vercel.test.cjs` and `npm run build` before deployment.
