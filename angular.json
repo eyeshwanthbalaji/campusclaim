@@ -13,7 +13,8 @@
             "index": false,
             "tsConfig": "tsconfig.json",
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/map.css"
             ],
             "outputPath": "dist/campusclaim",
             "assets": [
@@ -47,5 +48,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "8b58ec1f-bfde-4468-85d0-3ab787f92748"
   }
 }
