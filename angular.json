@@ -10,12 +10,20 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
-            "index": "src/index.html",
+            "index": false,
             "tsConfig": "tsconfig.json",
             "styles": [
               "src/styles.css"
             ],
-            "outputPath": "dist/campusclaim"
+            "outputPath": "dist/campusclaim",
+            "assets": [
+              {
+                "glob": "index.html",
+                "input": "public",
+                "output": "/"
+              }
+            ],
+            "outputHashing": "none"
           },
           "configurations": {
             "production": {
@@ -27,7 +35,7 @@
                 },
                 "fonts": false
               },
-              "outputHashing": "all"
+              "outputHashing": "none"
             }
           }
         },
