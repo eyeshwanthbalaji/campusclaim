@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "framework": "angular",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/campusclaim/browser",
+  "regions": [
+    "bom1"
+  ],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js?route=$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
